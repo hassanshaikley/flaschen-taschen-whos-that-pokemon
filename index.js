@@ -27,4 +27,9 @@ app.post('/guess', function (req, res) {
 app.listen(3000, function () {
   console.log('Who\'s that Pokemon listening on port 3000!');
   app.game = new Game();
+  var args = process.argv.slice(2);
+  if (args[0]){
+    app.game.target = args[0];
+  }
+  app.game.start();
 });

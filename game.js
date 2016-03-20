@@ -8,7 +8,11 @@ function puts(error, stdout, stderr) { console.log(stdout) }
 function Game(){
   this.already_asked = [];
   this.state = 0; // 1 means good, can guess
-  var str='./bin/send-text -l 10 -o -c FF0000 -f bin/5x5.bdf -g 40x20+0+3 -h localhost "Who\'s That Pokemon!"'
+  this.target = "localhost";
+};
+
+Game.prototype.start = function(){
+  var str='./bin/send-text -l 10 -o -c FF0000 -f bin/5x5.bdf -g 40x20+0+3 -h '+this.target+ ' "Who\'s That Pokemon!"'
   exec(str, puts);
 
   var that = this;
@@ -16,8 +20,7 @@ function Game(){
     that.state = 1;
     that.newPokemon();
   }, 8000);
-};
-
+}
 
 Game.prototype.newPokemon = function(){
   //if generation == 151
@@ -28,7 +31,7 @@ Game.prototype.newPokemon = function(){
   }
   //for num 50 the correct answer is 51
   var pokemon_file =  "images/pokemon_v2_" + num +".png";
-  var str = "./bin/send-image -h localhost -g 28x28 ";
+  var str = "./bin/send-image -h " + this.target +" -g 28x28 ";
   str+=pokemon_file;
   exec(str, puts);
   console.log("Pokemon num is " + this.current_pokemon);
@@ -61,10 +64,10 @@ Game.prototype.correctAnswer = function(guess){
     return;
   }
   this.state = 0;
-  var str='./bin/send-text -l 10 -o -c FF0000 -f bin/5x5.bdf -g 40x20+0+3 -h localhost "It\'s ' + guess + '!"'
+  var str='./bin/send-text -l 10 -o -c FF0000 -f bin/5x5.bdf -g 40x20+0+3 -h ' + this.target + '"It\'s ' + guess + '!"'
     exec(str, puts);
   
-  str = "./bin/send-image -h localhost -g 28x28 images/";
+  str = "./bin/send-image -h " +this.target +" -g 28x28 images/";
   str+= "c_pokemon_v2_"+ (this.current_pokemon-1)+".png";
   console.log("EXECUTING " + str);
   exec(str, puts);
