@@ -8,7 +8,7 @@ function puts(error, stdout, stderr) { console.log(stdout) }
 function Game(){
   this.already_asked = [];
   this.state = 0; // 1 means good, can guess
-  var str='./send-text -o -c FF0000 -f ../flaschen-taschen/client/fonts/5x5.bdf -g 40x20+0+3 -h localhost "Who\'s That Pokemon!"'
+  var str='./lib/send-text -l 10 -o -c FF0000 -f ../flaschen-taschen/client/fonts/5x5.bdf -g 40x20+0+3 -h localhost "Who\'s That Pokemon!"'
   exec(str, puts);
 
   var that = this;
@@ -28,7 +28,7 @@ Game.prototype.newPokemon = function(){
   }
   //for num 50 the correct answer is 51
   var pokemon_file =  "images/pokemon_" + num +".png";
-  var str = "./send-image -h localhost -g 32x32-3-3 ";
+  var str = "./lib/send-image -h localhost -g 32x32-3-3 ";
   str+=pokemon_file;
   exec(str, puts);
   console.log("Pokemon num is " + this.current_pokemon);
@@ -43,7 +43,7 @@ Game.prototype.checkPokemon = function(pokemon){
     return;
   }
   var that = this;
-  get_line('pokemon_list.txt', this.current_pokemon-1, function(err, line){
+  get_line('lib/pokemon_list.txt', this.current_pokemon-1, function(err, line){
       console.log('The line: ' + line + ", the pokemon: " + pokemon);
 
       if (line.toLowerCase() == pokemon.toLowerCase()){
@@ -61,10 +61,10 @@ Game.prototype.correctAnswer = function(guess){
     return;
   }
   this.state = 0;
-  var str='./send-text -o -c FF0000 -f ../flaschen-taschen/client/fonts/5x5.bdf -g 40x20+0+3 -h localhost "YES!! ' + guess + '!!!"'
+  var str='./lib/send-text -l 10 -o -c FF0000 -f ../flaschen-taschen/client/fonts/5x5.bdf -g 40x20+0+3 -h localhost "YES!! ' + guess + '!!!"'
     exec(str, puts);
   
-  str = "./send-image -h localhost -g 32x32-3-3 images/";
+  str = "./lib/send-image -h localhost -g 32x32-3-3 images/";
   str+= "c_pokemon_"+ (this.current_pokemon-1)+".png";
   console.log("EXECUTING " + str);
   exec(str, puts);
