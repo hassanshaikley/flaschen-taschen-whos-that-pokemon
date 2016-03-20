@@ -43,7 +43,7 @@ Game.prototype.loop = function(){
     if (this.state == 0){
       pokemon_file =  "images/c_pokemon_v2_" + (this.current_pokemon-1) +".png";
     }
-    str = "./bin/send-image -l 5 -h " + this.target +" -g 28x28 ";
+    str = "./bin/send-image -l 5 -h " + this.target +" -g 28x28+5+0 ";
     str+=pokemon_file;
     exec(str, puts);
   }
