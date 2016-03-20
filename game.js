@@ -3,15 +3,23 @@ var fs = require('fs');
 
 var flaschen_client_dir = process.env.FLASCHEN_CLIENT_DIR
 
-function puts(error, stdout, stderr) { console.log(stdout) }
+function puts(error, stdout, stderr) { 
+  //console.log(stdout) 
+}
 
 function Game(){
   this.already_asked = [];
   this.state = 0; // 1 means good, can guess
   this.target = "localhost";
+  this.current_pokemon = -1;
 };
 
 Game.prototype.start = function(){
+
+  //clear canvas
+  str = "./bin/send-image -C -l 5 -h " +this.target +" -g 50x50 ";
+  exec(str, puts);
+  
   var str='./bin/send-text -l 10 -o -c FF0000 -f bin/5x5.bdf -g 40x20+0+3 -h '+this.target+ ' "Who\'s That Pokemon!"'
   exec(str, puts);
 
@@ -20,7 +28,26 @@ Game.prototype.start = function(){
     that.state = 1;
     that.newPokemon();
   }, 8000);
+
+  setInterval(function() {
+    that.loop();
+  }, 500);
 }
+
+Game.prototype.loop = function(){
+  var str = "./bin/send-image -l 1 -h " +this.target +" -g 40x40 images/";
+  str+= "blueray.png";
+  exec(str, puts);
+  if (this.current_pokemon != -1){
+    var pokemon_file =  "images/pokemon_v2_" + (this.current_pokemon-1) +".png";
+    if (this.state == 0){
+      pokemon_file =  "images/c_pokemon_v2_" + (this.current_pokemon-1) +".png";
+    }
+    str = "./bin/send-image -l 5 -h " + this.target +" -g 28x28 ";
+    str+=pokemon_file;
+    exec(str, puts);
+  }
+};
 
 Game.prototype.newPokemon = function(){
   //if generation == 151
@@ -30,15 +57,6 @@ Game.prototype.newPokemon = function(){
     this.newPokemon();
   }
   //for num 50 the correct answer is 51
-  var str = "./bin/send-image -l 1 -h " +this.target +" -g 40x40 images/";
-  str+= "blueray.png";
-  
-  console.log("EXECUTING " + str);
-  exec(str, puts);
-  var pokemon_file =  "images/pokemon_v2_" + num +".png";
-  var str = "./bin/send-image -l 5 -h " + this.target +" -g 28x28 ";
-  str+=pokemon_file;
-  exec(str, puts);
   console.log("Pokemon num is " + this.current_pokemon);
 
   this.already_asked.push(this.current_pokemon);
@@ -55,7 +73,6 @@ Game.prototype.checkPokemon = function(pokemon){
       console.log('The line: ' + line + ", the pokemon: " + pokemon);
 
       if (line.toLowerCase() == pokemon.toLowerCase()){
-      console.log("SHIT MATCHES BIATCH");
       that.correctAnswer(pokemon);
       }
       });
@@ -63,26 +80,16 @@ Game.prototype.checkPokemon = function(pokemon){
 };
 
 Game.prototype.correctAnswer = function(guess){
-  //SHIT YOU GOT THE RIGHT ANSWER! PASS AN ANIMATION THEN WRITE "YES IT WAS ABRA"
   if (this.state === 0){
     console.log("You got this right but it ain't the time");
     return;
   }
   this.state = 0;
   
-  str = "./bin/send-image -l 1 -h " +this.target +" -g 40x40 images/";
-  str+= "blueray.png";
-  
-  console.log("EXECUTING " + str);
-  exec(str, puts);
-  
-  var str='./bin/send-text -l 10 -o -c FF0000 -f bin/5x5.bdf -g 40x20+0+3 -h ' + this.target + '"It\'s ' + guess + '!"'
+  str='./bin/send-text -l 10 -o -c FF0000 -f bin/5x5.bdf -g 40x20+0+3 -h ' + this.target + ' "It\'s ' + guess + '!"'
     exec(str, puts);
-  
-  str = "./bin/send-image -l 5 -h " +this.target +" -g 28x28 images/";
-  str+= "c_pokemon_v2_"+ (this.current_pokemon-1)+".png";
-  console.log("EXECUTING " + str);
-  exec(str, puts);
+  console.log(">>>" +str); 
+  this.loop();
   var that = this;
   setTimeout(function(){ 
       that.state = 1;
