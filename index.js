@@ -25,7 +25,8 @@ app.post('/guess', function (req, res) {
   console.log(">>"+req.body.pokemon);
   
   //call this if they got it right
-  game.newPokemon();
+//  game.newPokemon();
+  game.checkPokemon(req.body.pokemon);
   res.redirect('/');
 });
 
