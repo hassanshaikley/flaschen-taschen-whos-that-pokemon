@@ -8,6 +8,7 @@ function Game(){
   this.current_pokemon;
   this.already_asked = [];
   this.state = 1; // 1 means good, can guess
+  this.newPokemon();
 };
 
 

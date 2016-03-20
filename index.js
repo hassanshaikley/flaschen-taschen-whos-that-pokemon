@@ -7,7 +7,7 @@ var Game = require('./game').Game;
 
 var bodyParser = require('body-parser')
 
-var game; //Global for the current game
+app.game; //Global for the current game
 
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
@@ -22,16 +22,12 @@ app.get('/', function (req, res) {
 });
 
 app.post('/guess', function (req, res) {
-  console.log(">>"+req.body.pokemon);
-  
-  //call this if they got it right
-//  game.newPokemon();
-  game.checkPokemon(req.body.pokemon);
+  console.log("Guess received: "+req.body.pokemon);
+  app.game.checkPokemon(req.body.pokemon);
   res.redirect('/');
 });
 
 app.listen(3000, function () {
-  console.log('Example app listening on port 3000!');
-  game = new Game();
-  game.newPokemon();
+  console.log('Who\'s that Pokemon listening on port 3000!');
+  app.game = new Game();
 });

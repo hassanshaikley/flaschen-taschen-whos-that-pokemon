@@ -3,7 +3,7 @@ Ivysaur
 Venusaur
 Charmander
 Charmeleon
-Charizard 
+Charizard
 Squirtle
 Wartortle
 Blastoise
@@ -12,10 +12,10 @@ Metapod
 Butterfree
 Weedle
 Kakuna
-Beedrill 
+Beedrill
 Pidgey
-Pidgeotto 
-Pidgeot 
+Pidgeotto
+Pidgeot
 Rattata
 Raticate
 Spearow
@@ -28,7 +28,7 @@ Sandshrew
 Sandslash
 Nidoran
 Nidorina
-Nidoqueen 
+Nidoqueen
 Nidoran
 Nidorino
 Nidoking
@@ -36,7 +36,7 @@ Clefairy
 Clefable
 Vulpix
 Ninetales
-Jigglypuff	
+Jigglypuff
 Wigglytuff
 Zubat
 Golbat
@@ -79,10 +79,10 @@ Rapidash
 Slowpoke
 Slowbro
 Magnemite
-Magneton 
-Farfetch'd	
+Magneton
+Farfetch'd
 Doduo
-Dodrio 
+Dodrio
 Seel
 Dewgong
 Grimer
@@ -120,7 +120,7 @@ Seaking
 Staryu
 Starmie
 Mr. Mime
-Scyther 
+Scyther
 Jynx
 Electabuzz
 Magmar
