@@ -1,0 +1,27 @@
+{
+  "name": "flaschen-pokemon",
+  "version": "1.0.0",
+  "description": "Who's that Pokemon for the Flaschen Taschen",
+  "main": "index.js",
+  "dependencies": {
+    "body-parser": "^1.15.0",
+    "express": "^4.13.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hassanshaikley/flaschen-taschen-whos-that-pokemon.git"
+  },
+  "keywords": [
+    "Flaschen-Taschen"
+  ],
+  "author": "Hassan Shaikley <Hassan.shaikley@gmail.com>",
+  "license": "GPL-2.0",
+  "bugs": {
+    "url": "https://github.com/hassanshaikley/flaschen-taschen-whos-that-pokemon/issues"
+  },
+  "homepage": "https://github.com/hassanshaikley/flaschen-taschen-whos-that-pokemon#readme"
+}
