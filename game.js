@@ -49,9 +49,13 @@ Game.prototype.correctAnswer = function(guess){
     return;
   }
   this.state = 0;
-  var str = './../flaschen-taschen/client/send-text -c 100000 -f fonts/5x5.bdf -g 40x20+0+3 -h localhost "YES!! '+ guess +'!!"'
   var str='./../flaschen-taschen/client/send-text -o -c FF0000 -f ../flaschen-taschen/client/fonts/5x5.bdf -g 40x20+0+3 -h localhost "YES!! ' + guess + '!!!"'
     exec(str, puts);
+  
+  str = "./../flaschen-taschen/client/send-image -h localhost -g 32x32-3-3 images/";
+  str+= "c_pokemon_"+ (this.current_pokemon-1)+".png";
+  console.log("EXECUTING " + str);
+  exec(str, puts);
   var that = this;
   setTimeout(function(){ 
       that.state = 1;
