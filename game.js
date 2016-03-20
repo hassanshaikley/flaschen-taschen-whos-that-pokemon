@@ -5,14 +5,14 @@ var fs = require('fs');
 function puts(error, stdout, stderr) { console.log(stdout) }
 
 function Game(){
-  this.current_pokemon;
   this.already_asked = [];
-  this.state = 1; // 1 means good, can guess
+  this.state = 0; // 1 means good, can guess
   var str='./../flaschen-taschen/client/send-text -o -c FF0000 -f ../flaschen-taschen/client/fonts/5x5.bdf -g 40x20+0+3 -h localhost "Who\'s That Pokemon!"'
   exec(str, puts);
 
   var that = this;
   setTimeout(function() {
+    that.state = 1;
     that.newPokemon();
   }, 8000);
 };
@@ -37,6 +37,10 @@ Game.prototype.newPokemon = function(){
 
 //Given a number checks if the number matches the current pokemon
 Game.prototype.checkPokemon = function(pokemon){
+  if (this.state == 0){
+    console.log("not ready to check pokemon, state is 0");
+    return;
+  }
   var that = this;
   get_line('pokemon_list.txt', this.current_pokemon-1, function(err, line){
       console.log('The line: ' + line + ", the pokemon: " + pokemon);

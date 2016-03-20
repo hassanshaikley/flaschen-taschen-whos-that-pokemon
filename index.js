@@ -1,13 +1,10 @@
 var util = require('util')
-
 var express = require('express');
-var app = express();
+var bodyParser = require('body-parser')
 
 var Game = require('./game').Game;
 
-var bodyParser = require('body-parser')
-
-app.game; //Global for the current game
+var app = express();
 
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
