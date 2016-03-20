@@ -4,7 +4,9 @@
 
 `npm install`
 
-`node index.js`
+`node index.js $LOCATION`
+
+$LOCATION is ft.noise when near the flaschentaschen. The default value is localhost.
 
 Submit your answers to localhost:3000!
 
