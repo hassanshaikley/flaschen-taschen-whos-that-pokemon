@@ -1,5 +1,6 @@
-Clone, cd and then
+```npm install
 
-```npm install```
+node index.js```
 
-Also the directory for the send-image needs to be there...ah...I will figure that out right no * cries *
+now it should be hosted on localhost:3000
+
