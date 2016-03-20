@@ -27,8 +27,8 @@ Game.prototype.newPokemon = function(){
     this.newPokemon();
   }
   //for num 50 the correct answer is 51
-  var pokemon_file =  "images/pokemon_" + num +".png";
-  var str = "./bin/send-image -h localhost -g 32x32-3-3 ";
+  var pokemon_file =  "images/pokemon_v2_" + num +".png";
+  var str = "./bin/send-image -h localhost -g 28x28 ";
   str+=pokemon_file;
   exec(str, puts);
   console.log("Pokemon num is " + this.current_pokemon);
@@ -61,11 +61,11 @@ Game.prototype.correctAnswer = function(guess){
     return;
   }
   this.state = 0;
-  var str='./bin/send-text -l 10 -o -c FF0000 -f bin/5x5.bdf -g 40x20+0+3 -h localhost "YES!! ' + guess + '!!!"'
+  var str='./bin/send-text -l 10 -o -c FF0000 -f bin/5x5.bdf -g 40x20+0+3 -h localhost "It\'s ' + guess + '!"'
     exec(str, puts);
   
-  str = "./bin/send-image -h localhost -g 32x32-3-3 images/";
-  str+= "c_pokemon_"+ (this.current_pokemon-1)+".png";
+  str = "./bin/send-image -h localhost -g 28x28 images/";
+  str+= "c_pokemon_v2_"+ (this.current_pokemon-1)+".png";
   console.log("EXECUTING " + str);
   exec(str, puts);
   var that = this;
