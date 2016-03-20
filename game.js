@@ -1,13 +1,14 @@
 var exec = require('child_process').exec;
-
 var fs = require('fs');
+
+var flaschen_client_dir = process.env.FLASCHEN_CLIENT_DIR
 
 function puts(error, stdout, stderr) { console.log(stdout) }
 
 function Game(){
   this.already_asked = [];
   this.state = 0; // 1 means good, can guess
-  var str='./../flaschen-taschen/client/send-text -o -c FF0000 -f ../flaschen-taschen/client/fonts/5x5.bdf -g 40x20+0+3 -h localhost "Who\'s That Pokemon!"'
+  var str='./send-text -o -c FF0000 -f ../flaschen-taschen/client/fonts/5x5.bdf -g 40x20+0+3 -h localhost "Who\'s That Pokemon!"'
   exec(str, puts);
 
   var that = this;
@@ -27,7 +28,7 @@ Game.prototype.newPokemon = function(){
   }
   //for num 50 the correct answer is 51
   var pokemon_file =  "images/pokemon_" + num +".png";
-  var str = "./../flaschen-taschen/client/send-image -h localhost -g 32x32-3-3 ";
+  var str = "./send-image -h localhost -g 32x32-3-3 ";
   str+=pokemon_file;
   exec(str, puts);
   console.log("Pokemon num is " + this.current_pokemon);
@@ -60,10 +61,10 @@ Game.prototype.correctAnswer = function(guess){
     return;
   }
   this.state = 0;
-  var str='./../flaschen-taschen/client/send-text -o -c FF0000 -f ../flaschen-taschen/client/fonts/5x5.bdf -g 40x20+0+3 -h localhost "YES!! ' + guess + '!!!"'
+  var str='./send-text -o -c FF0000 -f ../flaschen-taschen/client/fonts/5x5.bdf -g 40x20+0+3 -h localhost "YES!! ' + guess + '!!!"'
     exec(str, puts);
   
-  str = "./../flaschen-taschen/client/send-image -h localhost -g 32x32-3-3 images/";
+  str = "./send-image -h localhost -g 32x32-3-3 images/";
   str+= "c_pokemon_"+ (this.current_pokemon-1)+".png";
   console.log("EXECUTING " + str);
   exec(str, puts);
