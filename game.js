@@ -8,7 +8,13 @@ function Game(){
   this.current_pokemon;
   this.already_asked = [];
   this.state = 1; // 1 means good, can guess
-  this.newPokemon();
+  var str='./../flaschen-taschen/client/send-text -o -c FF0000 -f ../flaschen-taschen/client/fonts/5x5.bdf -g 40x20+0+3 -h localhost "Who\'s That Pokemon!"'
+  exec(str, puts);
+
+  var that = this;
+  setTimeout(function() {
+    that.newPokemon();
+  }, 8000);
 };
 
 
@@ -61,7 +67,7 @@ Game.prototype.correctAnswer = function(guess){
   setTimeout(function(){ 
       that.state = 1;
       that.newPokemon();
-      }, 3000);
+      }, 8000);
 };
 
 function get_line(filename, line_no, callback) {
