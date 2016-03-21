@@ -7,7 +7,6 @@
       <button onclick="">Submit</button>
     </form>
     <small> IT ISN'T CASE SENSITIVE</small>
-
     <div id="guesses">
     </div>
     <script src="/socket.io/socket.io.js"></script>
@@ -17,21 +16,14 @@
       function guess(){
       var target = document.getElementById('guess');
 
-      console.log("Guessing " +target.value);
       var guess = target.value;
       socket.emit('guess', { guess: guess });
       target.value ="";
       return false;
       }
       socket.on('guess', function(data){
-      console.log(" lol " + data.guess);
       var target = document.getElementById('guesses');
-
-      //      var iDiv = document.createElement('div');
-      //      iDiv.innerText = data.guess;
       target.innerHTML = data.guess + " </br>" + target.innerHTML;
-      //target.prependChild(iDiv);
-
       });
     </script>
   </body>
