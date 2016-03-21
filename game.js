@@ -48,8 +48,11 @@ Game.prototype.loop = function(){
 };
 
 Game.prototype.newPokemon = function(){
-    //if generation == 151
-    var num = (Math.floor(Math.random()*150 + 0)); // number between 0 and 150
+    if (this.already_asked.length == 151){
+        console.log("\n\n\t\tHAVE ALREADY ASKED ALL POKEMON! D: \n\n");
+        this.already_asked =[];
+    }
+    var num = (Math.floor(Math.random()*151 + 0)); // number between 0 and 150
     this.current_pokemon = num+1;
     if (this.already_asked.indexOf(this.current_pokemon) != -1){
         this.newPokemon();

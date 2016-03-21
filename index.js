@@ -45,7 +45,7 @@ io.on('connection', function(socket){
     });
     socket.on('guess', function(data){
         console.log("Guess received: "+data.guess);
-        app.game.checkPokemon(data.guess);
+        app.game.checkPokemon(data.guess.trim());
         this.emit('guess', { guess: data.guess });
         this.broadcast.emit('guess', { guess: data.guess });
     });
