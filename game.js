@@ -33,7 +33,7 @@ Game.prototype.start = function(){
     }, 100);
 }
 
-var curr_opacity = -.7;
+var curr_brightness = -.7;
 Game.prototype.loop = function(){
     var str = "./bin/send-image -l 1 -h " +this.target +" -g 45x45 images/";
     str+= "blueray.png";
@@ -48,16 +48,16 @@ Game.prototype.loop = function(){
 		if (err){
 		  console.log("FAAK " + err);
 		}
-		image.brightness(curr_opacity);
-		curr_opacity+=.1;
-		curr_opacity = parseFloat(curr_opacity.toFixed(1));	
-		if(curr_opacity >= 0){
-		  curr_opacity = 0;
+		image.brightness(curr_brightness);
+		curr_brightness+=.1;
+		curr_brightness = parseFloat(curr_brightness.toFixed(1));	
+		if(curr_brightness >= 0){
+		  curr_brightness = 0;
 		}
-		var opacity_file = "images/c_"+ (that.current_pokemon-1)+"."+curr_opacity+".png";
-		console.log("Writing to " + opacity_file);
-		image.write(opacity_file, function(){
-		  that.exec_(opacity_file);	
+		var brightness_file = "images/c_"+ (that.current_pokemon-1)+"."+curr_brightness+".png";
+		console.log("Yas" + brightness_file);
+		image.write(brightness_file, function(){
+		  that.exec_(brightness_file);	
 		});
 		// do stuff with the image 
 	    }).catch(function (err) {
@@ -119,6 +119,7 @@ Game.prototype.correctAnswer = function(guess){
     setTimeout(function(){
         that.state = 1;
         that.newPokemon();
+	curr_brightness = -.7;
     }, 8000);
 };
 
