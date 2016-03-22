@@ -10,6 +10,7 @@ function Game(){
     this.state = 0; // 1 means good, can guess
     this.target = "localhost";
     this.current_pokemon = -1;
+    this.score_board = {};
 };
 
 Game.prototype.start = function(){
@@ -37,11 +38,11 @@ Game.prototype.loop = function(){
     str+= "blueray.png";
     exec(str, puts);
     if (this.current_pokemon != -1){
-        var pokemon_file =  "images/pokemon_v2_" + (this.current_pokemon-1) +".png";
+        var pokemon_file =  "images/_" + (this.current_pokemon-1) +".png";
         if (this.state == 0){
-            pokemon_file =  "images/c_pokemon_v2_" + (this.current_pokemon-1) +".png";
+            pokemon_file =  "images/c_" + (this.current_pokemon-1) +".png";
         }
-        str = "./bin/send-image -l 5 -h " + this.target +" -g 28x28+5+0 ";
+        str = "./bin/send-image -l 5 -h " + this.target +" ";
         str+=pokemon_file;
         exec(str, puts);
     }
