@@ -1,6 +1,6 @@
 var exec = require('child_process').exec;
 var fs = require('fs');
-
+var Jimp = require('jimp');
 function puts(error, stdout, stderr) {
     //console.log(stdout)
 };
@@ -30,23 +30,50 @@ Game.prototype.start = function(){
 
     setInterval(function() {
         that.loop();
-    }, 500);
+    }, 100);
 }
 
+var curr_opacity = -.7;
 Game.prototype.loop = function(){
     var str = "./bin/send-image -l 1 -h " +this.target +" -g 45x45 images/";
     str+= "blueray.png";
     exec(str, puts);
+    var that = this;
     if (this.current_pokemon != -1){
-        var pokemon_file =  "images/_" + (this.current_pokemon-1) +".png";
+        var pokemon_file;
         if (this.state == 0){
             pokemon_file =  "images/c_" + (this.current_pokemon-1) +".png";
-        }
-        str = "./bin/send-image -l 5 -g 25x25+8+5 -h " + this.target +" ";
-        str+=pokemon_file;
-        exec(str, puts);
+	    console.log("STATE STATE " +pokemon_file);
+	    Jimp.read(pokemon_file, function (err, image) {
+		if (err){
+		  console.log("FAAK " + err);
+		}
+		image.brightness(curr_opacity);
+		curr_opacity+=.1;
+		curr_opacity = parseFloat(curr_opacity.toFixed(1));	
+		if(curr_opacity >= 0){
+		  curr_opacity = 0;
+		}
+		var opacity_file = "images/c_"+ (that.current_pokemon-1)+"."+curr_opacity+".png";
+		console.log("Writing to " + opacity_file);
+		image.write(opacity_file, function(){
+		  that.exec_(opacity_file);	
+		});
+		// do stuff with the image 
+	    }).catch(function (err) {
+		// handle an exception 
+	    });
+        } else {
+	  pokemon_file =  "images/_" + (this.current_pokemon-1) +".png";
+	  this.exec_(pokemon_file);
+      }
     }
 };
+
+Game.prototype.exec_ = function(file){
+    var str = "./bin/send-image -l 5 -g 25x25+8+5 -h " + this.target +" " + file;
+    exec(str, puts);
+}
 
 Game.prototype.newPokemon = function(){
     if (this.already_asked.length == 151){
