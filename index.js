@@ -45,8 +45,14 @@ io.on('connection', function(socket){
     });
     socket.on('guess', function(data){
         console.log("Guess received: "+data.guess);
+	var guess = data.guess;
+	guess.trim();//remove trailing whitespac
         app.game.checkPokemon(data.guess.trim());
-        this.emit('guess', { guess: data.guess });
-        this.broadcast.emit('guess', { guess: data.guess });
+	if(guess.indexOf(">") != -1){
+	  return;
+	}
+
+        this.emit('guess', { guess: guess });
+        this.broadcast.emit('guess', { guess: guess });
     });
 });

@@ -16,7 +16,7 @@ function Game(){
 Game.prototype.start = function(){
 
     //clear canvas
-    str = "./bin/send-image -C -l 5 -h " +this.target +" -g 50x50 ";
+    str = "./bin/send-image -C -l 5 -h " +this.target +" -g 45x45 ";
     exec(str, puts);
 
     var str='./bin/send-text -l 10 -o -c FF0000 -f bin/5x5.bdf -g 40x20+0+3 -h '+this.target+ ' "Who\'s That Pokemon!"';
@@ -34,7 +34,7 @@ Game.prototype.start = function(){
 }
 
 Game.prototype.loop = function(){
-    var str = "./bin/send-image -l 1 -h " +this.target +" -g 40x40 images/";
+    var str = "./bin/send-image -l 1 -h " +this.target +" -g 45x45 images/";
     str+= "blueray.png";
     exec(str, puts);
     if (this.current_pokemon != -1){
@@ -42,7 +42,7 @@ Game.prototype.loop = function(){
         if (this.state == 0){
             pokemon_file =  "images/c_" + (this.current_pokemon-1) +".png";
         }
-        str = "./bin/send-image -l 5 -h " + this.target +" ";
+        str = "./bin/send-image -l 5 -g 25x25+8+5 -h " + this.target +" ";
         str+=pokemon_file;
         exec(str, puts);
     }
