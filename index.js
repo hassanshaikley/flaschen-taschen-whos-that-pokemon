@@ -48,7 +48,7 @@ io.on('connection', function(socket){
 	var guess = data.guess;
 	guess.trim();//remove trailing whitespac
         app.game.checkPokemon(data.guess.trim());
-	if(guess.indexOf(">") != -1){
+	if(guess.indexOf("<") != -1){
 	  return;
 	}
 
