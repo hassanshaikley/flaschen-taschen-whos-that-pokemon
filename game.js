@@ -11,6 +11,8 @@ function Game(){
     this.target = "localhost";
     this.current_pokemon = -1;
     this.score_board = {};
+    this.players = {};
+    this.socket;
 };
 
 Game.prototype.start = function(){
@@ -31,7 +33,7 @@ Game.prototype.start = function(){
     setInterval(function() {
         that.loop();
     }, 100);
-}
+};
 
 var curr_brightness = -.7;
 Game.prototype.loop = function(){
@@ -43,25 +45,27 @@ Game.prototype.loop = function(){
         var pokemon_file;
         if (this.state == 0){
             pokemon_file =  "images/c_" + (this.current_pokemon-1) +".png";
-	    console.log("STATE STATE " +pokemon_file);
+
 	    Jimp.read(pokemon_file, function (err, image) {
 		if (err){
 		  console.log("FAAK " + err);
 		}
 		image.brightness(curr_brightness);
 		curr_brightness+=.1;
-		curr_brightness = parseFloat(curr_brightness.toFixed(1));	
+		curr_brightness = parseFloat(curr_brightness.toFixed(1));
 		if(curr_brightness >= 0){
 		  curr_brightness = 0;
+		    that.exec_(pokemon_file);
+		} else {
+		  var brightness_file = "images/c_"+ (that.current_pokemon-1)+"."+curr_brightness+".png";
+
+		  image.write(brightness_file, function(){
+		    that.exec_(brightness_file);
+		  });
 		}
-		var brightness_file = "images/c_"+ (that.current_pokemon-1)+"."+curr_brightness+".png";
-		console.log("Yas" + brightness_file);
-		image.write(brightness_file, function(){
-		  that.exec_(brightness_file);	
-		});
-		// do stuff with the image 
+		// do stuff with the image
 	    }).catch(function (err) {
-		// handle an exception 
+		// handle an exception
 	    });
         } else {
 	  pokemon_file =  "images/_" + (this.current_pokemon-1) +".png";
@@ -71,9 +75,9 @@ Game.prototype.loop = function(){
 };
 
 Game.prototype.exec_ = function(file){
-    var str = "./bin/send-image -l 5 -g 25x25+8+5 -h " + this.target +" " + file;
+    var str = "./bin/send-image -l 5 -g 25x25+10+5 -h " + this.target +" " + file;
     exec(str, puts);
-}
+};
 
 Game.prototype.newPokemon = function(){
     if (this.already_asked.length == 151){
@@ -92,20 +96,20 @@ Game.prototype.newPokemon = function(){
 };
 
 //Given a number checks if the number matches the current pokemon
-Game.prototype.checkPokemon = function(pokemon){
+Game.prototype.checkPokemon = function(pokemon, player_id){
     if (this.state == 0){
         return;
     }
     var that = this;
     get_line('bin/pokemon_list.txt', this.current_pokemon-1, function(err, line){
         if (line.toLowerCase() == pokemon.toLowerCase()){
-            that.correctAnswer(pokemon);
+            that.correctAnswer(pokemon, player_id);
         }
     });
 
 };
 
-Game.prototype.correctAnswer = function(guess){
+Game.prototype.correctAnswer = function(guess, player_id){
     if (this.state === 0){
         return;
     }
@@ -116,6 +120,10 @@ Game.prototype.correctAnswer = function(guess){
 
     this.loop();
     var that = this;
+    this.players[player_id].score = this.players[player_id].score + 1;
+
+    this.updateScoreboard();
+
     setTimeout(function(){
         that.state = 1;
         that.newPokemon();
@@ -138,5 +146,15 @@ function get_line(filename, line_no, callback) {
     });
 }
 
+Game.prototype.updateScoreboard = function(){
+    console.log( "Updating scoreboard " + this.socket);
+    for (var id in this.players) {
+        console.log(this.players[id].id + "<~");
+        this.socket.emit("update scoreboard", {id: this.players[id].id, score: this.players[id].score });
+
+    }
+
+
+};
 
 exports.Game = Game;
