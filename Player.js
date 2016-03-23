@@ -1,5 +1,5 @@
 var Moniker = require('moniker');
-var names = Moniker.generator([Moniker.adjective, Moniker.noun]);
+var names = Moniker.generator([Moniker.noun, Moniker.noun]);
 
 function Player(id){
   this.score = 0;
