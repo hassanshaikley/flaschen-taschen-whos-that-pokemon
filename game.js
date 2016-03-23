@@ -150,7 +150,7 @@ Game.prototype.updateScoreboard = function(){
     console.log( "Updating scoreboard " + this.socket);
     for (var id in this.players) {
         console.log(this.players[id].id + "<~");
-        this.socket.emit("update scoreboard", {id: this.players[id].id, score: this.players[id].score });
+        this.socket.emit("update scoreboard", {id: this.players[id].id, score: this.players[id].score, name: this.players[id].name });
 
     }
 

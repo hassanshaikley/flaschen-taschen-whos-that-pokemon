@@ -28,6 +28,8 @@
       var socket = io();
       var id;
       var players = {};
+      var names = {};
+
       socket.on('init', function(data){
         id = data.id;
         players[id] = 0;
@@ -52,10 +54,11 @@
         target.innerHTML = data.guess + " </br>" + target.innerHTML;
       });
       socket.on('update scoreboard', function(data){
-        updateScore(data.id, data.score);
+        updateScore(data.id, data.score, data.name);
       });
-      function updateScore(id, score){
-        players[id] = score;
+      function updateScore(id, score, name){
+      players[id] = score;
+      names[id] = name;
 
         recalculateTable();
       };
@@ -70,9 +73,9 @@
 
       sortable.sort(function(a, b) {return b[1] - a[1]})
       for (var i = 0; i < sortable.length; i++){
-                          var person = "RANDOMER";
+                          var person = names[sortable[i][0]];
                           if (sortable[i][0] == id){
-                          person = "Me";
+                          person+= " (Me)";
                           }
         $('#scores tbody').append('<tr><td>'+person +'</td><td>'+ sortable[i][1]+'</td></tr>');
         }
