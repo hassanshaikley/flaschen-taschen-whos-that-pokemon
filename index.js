@@ -42,14 +42,16 @@ http.listen(3000, function () {
 io.on('connection', function(socket){
     console.log('a user connected');
     app.game.players[socket.id] = new Player(socket.id);
-    app.game.updateScoreboard();
     socket.emit('init', { id: socket.id});
+    app.game.updateScoreboard();
+
     socket.on('disconnect', function(){
         delete app.game.players[this.id];
         console.log("Fuckar disconnected " + app.game.players + "---" + this.id);
         app.game.updateScoreboard();
         this.broadcast.emit("disconnect player", {id: this.id });
     });
+
     socket.on('guess', function(data){
         console.log("Guess received: "+data.guess);
 	var guess = data.guess;

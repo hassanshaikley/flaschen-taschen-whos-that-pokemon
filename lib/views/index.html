@@ -31,13 +31,14 @@
       var names = {};
 
       socket.on('init', function(data){
+        players = {};
+        names = {};
         id = data.id;
         players[id] = 0;
         recalculateTable();
 
       });
       socket.on('disconnect player', function(data){
-      console.log("Deleting " + data.id);
       delete players[data.id];
               recalculateTable();
 
@@ -64,10 +65,11 @@
       };
 
       function recalculateTable(){
-      console.log("Recalculating table bb");
       $('#scores tr').remove();
         //sort players by score
       sortable = [];
+      $('#scores tbody').append('<tr><th>Player</th><th>Score</th></tr>');
+
       for (var _id in players)
       sortable.push([_id, players[_id]])
 

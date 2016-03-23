@@ -4,10 +4,10 @@
 
 `npm install`
 
-`node index.js $LOCATION`
+`node index.js $HOST`
 
-$LOCATION is ft.noise when near the flaschentaschen. The default value is localhost.
+$HOST is ft.noise when near the flaschentaschen. The default value is localhost.
 
-Submit your answers to localhost:3000!
+The server is hosted by default on localhost:3000!
 
 
